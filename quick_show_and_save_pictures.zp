@@ -1,0 +1,97 @@
+requires 1.10;
+
+//standards:
+import std_windows1;
+import std_entry_page1;
+import std_exit_page1;
+import std_pause_page;
+import std_blank_page;
+import std_etcal_page;
+import std_sound_output_device;
+
+//specials:
+import texts_en;
+import eyetracker_eyelink;
+//import eyetracker_tobii;
+import test_page;
+
+Experiment experiment
+{
+    on_event:entry()
+    {   
+        show_test_windows();
+        println("Selected group/list: " + selected_group);
+    }
+
+    Block practice
+    {
+        on_event:entry()
+        {
+            num_cycles = test_prac_items.size;
+            test_page.setup(num_cycles);
+        }
+
+        on_event:exit()
+        {
+            test_page.cleanup();
+        }
+
+        Trial trial
+        {
+            TestItem        current_item; 
+
+            on_event:entry()
+            {
+                current_item = test_prac_items[practice.cycle];
+                eyetracker.set_tracker_status_message("Practice trial " +  string(practice.cycle+1));
+            }
+
+            SubTrial presentation
+            {
+                on_event:entry()
+                {	
+                	 string dir = data_dir() + "visworldx/img/";
+                	 create_file(dir + "selected_group_" + selected_group);
+                	 
+                       test_page.quick_show_and_save_picture(this, current_item, reference_time, test.cycle, dir);
+                }
+            }
+        }
+    }
+
+    Block test
+    {
+        on_event:entry()
+        {	
+            num_cycles = test_items[selected_group].size;
+            test_page.setup(num_cycles);
+        }
+
+        on_event:exit()
+        {
+            test_page.cleanup();
+        }
+
+
+        Trial trial
+        {
+            TestItem        current_item; 
+            TestOutput     current_output;
+
+            on_event:entry()
+            {
+                current_item = test_items[selected_group][test.cycle];
+            }
+            
+
+            SubTrial presentation
+            {
+                on_event:entry()
+                {
+                	string dir = data_dir() + "visworldx/img/";
+                       test_page.quick_show_and_save_picture(this, current_item, reference_time, test.cycle, dir);
+                }
+            }
+        }
+    }
+}
