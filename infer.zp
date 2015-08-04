@@ -1,49 +1,19 @@
 /******************************************************************************\
-FILE:           visworld2.zp
-AUTHOR:         Theo Veenker (UiL-OTS) <T.J.G.Veenker@uu.nl>
+FILE:           infer.zp
+AUTHOR:         Chris van Run (C.P.A.vanrun@uu.nl)
 MODIFIED BY:    --
 
-EXPERIMENT:     Single Image Visual World
+EXPERIMENT:     Five Image Visual World
 
 DESCRIPTION:
+Five images and text is shown. The participant is to make a choice and select one of the corner images.
 
+Selection is highlighted for a short while.
 
-Purpose of this experiment is to record participant's eye-movements
-while he/she is listening to a spoken utterance and looking at a 
-screen displaying a semi-realistic scene. For each trial a scene 
-is displayed and an utterance relating to the scene is played. 
-Participant's task is to carefully look and listen. Self-paced. 
-Output: Eye-Tracking data as collected by the eye-tracker.
-
-
-Global structure of experiment:
-
-  - welcome
-
-  - instructions
-
-  - eye-tracker calibration
-
-  - practice phase (... trials)
-      trial
-        subtrial 1 (eye-tracker recalibration, only done on drift-check fail)
-        subtrial 2 (stimulus presentation)
-
-  - pause
-
-  - eye-tracker calibration
-
-  - test phase (... trials)
-      trial
-        subtrial 1 (eye-tracker recalibration, only done on drift-check fail)
-        subtrial 2 (stimulus presentation)
-
-  - thankyou
-
+Eyetracking is possible but turned off by default. To turn on make sure the correct booleans are set in the test_items and defs: USE_EYETRACKING.
 
 HISTORY:
-2012-09-21 TV   Created.
-2015-03-30 CvR  Cleaned and adapted to 1.10
+2015-08-04 Adapated
  
 \******************************************************************************/
 
