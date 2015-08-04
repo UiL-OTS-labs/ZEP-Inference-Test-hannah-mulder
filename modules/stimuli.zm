@@ -21,20 +21,19 @@ plugin zep_file;
 // Symbolic definition of item type.
 enum ItemType
 {
-    PRAC,		      // practice trials
-    CNDA,             // condition A
-    CNDB,             // condition B
-    CNDC,             // condition C
-    CNDD,             // condition D
-    FILL,		      // fillers
+    FILLER,
+    COGNITIVE,            // practice trials
+    AFFECTIVE,             // condition A
+    PHYSICAL,             // condition B
 }
 
 enum ScreenLocation
 {
-   TOP_LEFT,
-   TOP_RIGHT,
-   BOTTOM_LEFT,
-   BOTTOM_RIGHT
+    CENTER,
+    TOP_LEFT,
+    TOP_RIGHT,
+    BOTTOM_LEFT,
+    BOTTOM_RIGHT
 }
 
 // Item record used for the test phase item table.
@@ -42,11 +41,14 @@ record TestItem
 {
     int      id;             // item id
     ItemType    type;           // item type
-    int             target_onset;      
+    int             target_onset;
+    string      image_filename0;          // image stimulus filename
+    string      instruction;                    // image stimulus filename      
     string      image_filename1;          // image stimulus filename
     string      image_filename2;          // image stimulus filename
     string      image_filename3;          // image stimulus filename
     string      image_filename4;          // image stimulus filename
+    string      image_correct_filename;
     string      sound_filename;          // sound stimulus filename
     bool        record_eye_movements;         // if set, record eye movements
     bool        do_drift_check;       // if set, perform drift check
@@ -56,7 +58,7 @@ record TestItem
 TestItem[..] test_prac_items;
 
 // Item table used in the test phase.
-TestItem[..][..] test_items;
+TestItem[..] test_items;
 
 int all_stimuli_items_exist()
 {
@@ -65,15 +67,11 @@ int all_stimuli_items_exist()
         println("some PRACTICE items do not exist, error.");
         return ERROR;
     }
-    int index = 0;
-    while(index< test_items.size)
+
+     if(all_items_files_exists(test_items)==ERROR)
     {
-         if(all_items_files_exists(test_items[index])==ERROR)
-        {
-            println("some TEST items do not exist for group " + index + ", error.");
-            return ERROR;          
-        }
-         index++;
+        println("some TEST items do not exist, error.");
+        return ERROR;          
     }
     return OK;
 }
@@ -128,11 +126,11 @@ int load_stimuli()
         return OK;        
 }
 
-int shuffle_stimuli(int lst)
+int shuffle_stimuli()
 {
-    if (shuffle_test_items(lst) != OK) 
+    if (shuffle_test_items() != OK) 
     {
-        println("problem shuffling stimuli for group: " + lst + ", terminating\n" );
+        println("problem shuffling stimuli, terminating\n" );
         return ERROR;
     }
     return OK;

@@ -1,18 +1,5 @@
-   ### Test phase items ###
-index;id;type;target_onset;image_filename1;image_filename2;image_filename3;image_filename4;sound_filename;record_eye_movements;do_drift_check
-0;1;CNDA;0;"apple.png";"apple.png";"apple.png";"apple.png";"appels.wav";true;true
-1;1;CNDB;0;"drill.png";"apple.png";"apple.png";"apple.png";"appels.wav";true;true
-2;1;CNDC;0;"hammer.png";"apple.png";"apple.png";"apple.png";"appels.wav";true;true
-3;1;CNDD;0;"lemon.png";"apple.png";"apple.png";"apple.png";"appels.wav";true;true
-0;2;CNDD;0;"drill.png";"apple.png";"apple.png";"apple.png";"bomen.wav";true;true
-1;2;CNDA;0;"apple.png";"apple.png";"apple.png";"apple.png";"bomen.wav";true;true
-2;2;CNDB;0;"hammer.png";"apple.png";"apple.png";"apple.png";"bomen.wav";true;true
-3;2;CNDC;0;"lemon.png";"apple.png";"apple.png";"apple.png";"bomen.wav";true;true
-0;3;FILL;0;"apple.png";"apple.png";"apple.png";"apple.png";"fiets.wav";false;true
-1;3;FILL;0;"apple.png";"apple.png";"apple.png";"apple.png";"fiets.wav";false;true
-2;3;FILL;0;"apple.png";"apple.png";"apple.png";"apple.png";"fiets.wav";false;true
-3;3;FILL;0;"apple.png";"apple.png";"apple.png";"apple.png";"fiets.wav";false;true
-0;4;FILL;0;"hammer.png";"apple.png";"apple.png";"apple.png";"tuinman.wav";false;true
-1;4;FILL;0;"hammer.png";"apple.png";"apple.png";"apple.png";"tuinman.wav";false;true
-2;4;FILL;0;"hammer.png";"apple.png";"apple.png";"apple.png";"tuinman.wav";false;true
-3;4;FILL;0;"hammer.png";"apple.png";"apple.png";"apple.png";"tuinman.wav";false;true
+### Test phase items ###;;;;;;;;;;;;
+id;type;target_onset;image_filename0;instruction;image_filename1;image_filename2;image_filename3;image_filename4;image_correct_filename;sound_filename;record_eye_movements;do_drift_check
+1;FILLER;0;octocat.svg;This is an instruction! Select the drill!;hammer.png;apple.png;drill.png;lemon.png;drill.png;;false;false
+2;FILLER;0;octocat.svg;This is an instruction! Select the apple!;hammer.png;apple.png;drill.png;lemon.png;apple.png;;false;false
+3;FILLER;0;octocat.svg;This is an instruction! Select the hammer!;hammer.png;apple.png;drill.png;lemon.png;hammer.png;;false;false

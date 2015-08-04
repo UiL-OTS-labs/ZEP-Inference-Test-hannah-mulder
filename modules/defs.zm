@@ -33,27 +33,38 @@ const int       NUM_RESULT_TABLES               = 1;
 // The following are timing parameters and other settings.
 
 // Duration of the interval between two trials.
-const dur       INTERTRIAL_INTERVAL             = 1000ms;
+const dur       INTERTRIAL_INTERVAL             = 500ms;
 
 // Delay from drift-check to visual stimulus.
 const dur       DC_VISUAL_DELAY                 = 100ms;
 
 // Delay from visual stimulus onset to auditory stimulus.
-const dur       AUDITORY_DELAY                  = 750ms;
+const dur       AUDITORY_DELAY                  = 0ms;
 
 // Delay between manual participant response and recording end.
-const dur       RECORD_EXTRA_AFTER_RESPONSE = 100ms;
+const dur       RECORD_EXTRA_AFTER_RESPONSE = 0ms;
 
 // Delay from auditory target onset to response interval. Negative means
 // allow responding before the target begins. 
 // The resulting shift will never be earlier than audio stimulus onset. 
-const dur       RESPONSE_SHIFT                  = -100ms;
+const dur       RESPONSE_SHIFT                  = 0ms;
 
 // Duration of the response interval. A value of 0ms means there is no
 // timeout.
 //const dur       RESPONSE_DURATION               = 5000ms;       // auto-paced
 const dur       RESPONSE_DURATION               = 0ms;          // self-paced
 
-const bool	SELECT_ITEMS_BY_MOUSE = false;
+const bool  SELECT_ITEMS_BY_MOUSE = false;
 
-const bool	HIGHLIGHT_REGION_OF_INTEREST = true;
+const bool  HIGHLIGHT_REGION_OF_INTEREST = false;
+
+const bool  USE_EYETRACKING = false;
+
+const int   DISTANCE_OUTER_PICTURES = 300;
+const dur SELECTION_HIGHLIGHT_DURATION = 500ms;
+
+const int TEST_CANVAS_SIZES_WIDTH= 400;
+const int TEST_CANVAS_SIZES_HEIGHT = 400;
+
+const bool SHUFFLE_IMAGE_LOCATIONS = true;
+const real IMAGE_SCALING = 0.5;

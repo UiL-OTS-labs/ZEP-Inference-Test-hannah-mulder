@@ -57,7 +57,7 @@ Page test_page
     void handle_eyetracker_message()
     {
             if (message_arg == DRIFT_CHECK_DONE)
-                start_actual_presentation();
+                start_actual_presentation(event_time);
             else if (message_arg == RECALIBRATE)
                 cancel_to_recalibrate();
     }
@@ -108,7 +108,7 @@ Page test_page
                 {
                     init()
                     {
-                        fill_pattern_color = color:white;
+                        //fill_pattern_color = color:white;
                         size = 800, 800;
                     }
                 }
@@ -116,10 +116,45 @@ Page test_page
 
             HorGridLayout stimuli
             {
+                CanvasGadget[..] images;
+                // Prepare stimulus presentation objects.
+                string[..] filenames;
+
                  init()
                 {
                     wrap_count = 2;
+                    hor_spacing = DISTANCE_OUTER_PICTURES;
+                    ver_spacing = hor_spacing;
                     is_visible = false;
+
+                    images.size = 5;
+                    images[CENTER] = middle_image_layout.middle_image_canvas;
+                    images[TOP_LEFT] = image1canvas;
+                    images[TOP_RIGHT] = image2canvas;
+                    images[BOTTOM_LEFT] = image3canvas;
+                    images[BOTTOM_RIGHT] = image4canvas;
+                }
+
+                time highlight_image(int location)
+                {
+                    images[location].border_style = BORDER_SOLID;
+                    images[location].border = 2;
+                    images[location].border_color = color:green;
+
+                    highlight_region_disable_timer.highlight = images[location];
+                    highlight_region_disable_timer.start(now()+SELECTION_HIGHLIGHT_DURATION);
+
+                    return highlight_region_disable_timer.expected_expire_time;
+                }
+
+                Timer highlight_region_disable_timer
+                {
+                    CanvasGadget highlight;
+
+                    on_event:expire()
+                    {
+                        highlight.border = 0;
+                    }
                 }
 
                  on_event:start()
@@ -127,15 +162,18 @@ Page test_page
                     int dt = int(now() - start_time);
                     eyetracker.print_to_data_file(start_time, "SYNCTIME " + string(dt));
                     eyetracker.print_to_data_file(start_time, string(dt) + " DISPLAY ON");
+                    layout.regions_of_interests.reload();
                 }
 
                  CanvasGadget image1canvas
                 {
                     init()
                     {
-                        size = 400, 400;
+                        size = TEST_CANVAS_SIZES_WIDTH, TEST_CANVAS_SIZES_HEIGHT;
                         offset_x = floor(width / 2);
                         offset_y = floor(height / 2);
+                        scaling_x = IMAGE_SCALING;
+                        scaling_y = scaling_x;
                     }
 
                     ImageShape image1
@@ -151,9 +189,11 @@ Page test_page
                 {
                     init()
                     {
-                        size = 400, 400;
+                        size = TEST_CANVAS_SIZES_WIDTH, TEST_CANVAS_SIZES_HEIGHT;
                         offset_x = floor(width / 2);
                         offset_y = floor(height / 2);
+                        scaling_x = IMAGE_SCALING;
+                        scaling_y = scaling_x;
                     }
 
                     ImageShape image2
@@ -169,9 +209,11 @@ Page test_page
                 {
                     init()
                     {
-                        size = 400, 400;
+                        size = TEST_CANVAS_SIZES_WIDTH, TEST_CANVAS_SIZES_HEIGHT;
                         offset_x = floor(width / 2);
                         offset_y = floor(height / 2);
+                        scaling_x = IMAGE_SCALING;
+                        scaling_y = scaling_x;
                     }
 
                     ImageShape image3
@@ -187,9 +229,11 @@ Page test_page
                 {
                     init()
                     {
-                        size = 400, 400;
+                        size = TEST_CANVAS_SIZES_WIDTH, TEST_CANVAS_SIZES_HEIGHT;
                         offset_x = floor(width / 2);
                         offset_y = floor(height / 2);
+                        scaling_x = IMAGE_SCALING;
+                        scaling_y = scaling_x;
                     }
 
                     ImageShape image4
@@ -202,19 +246,76 @@ Page test_page
                 }
 
                 void load_all_images(string[] filenames)
-                {
+                { 
+                    load_image(middle_image_layout.middle_image_canvas.image0, filenames[CENTER]);
                     load_image(image1canvas.image1, filenames[TOP_LEFT]);
                     load_image(image2canvas.image2, filenames[TOP_RIGHT]);
                     load_image(image3canvas.image3, filenames[BOTTOM_LEFT]);
                     load_image(image4canvas.image4, filenames[BOTTOM_RIGHT]);
                 }
 
+                string retreive_filename_images(int location)
+                {
+                    return filenames[location];
+                }
+
                 void load_image(ImageShape target_image, string filename)
                 {
+                    if(filename == "")
+                        return;
                     target_image.image = stimuli_dir() + "/images/" + filename;
-
                     target_image.x = floor(-target_image.actual_width / 2);
                     target_image.y = floor(-target_image.actual_height / 2);
+                }
+            }
+
+            VerticalLayout middle_image_layout
+            {
+                CanvasGadget middle_image_canvas
+                {
+                    init()
+                    {
+                        size = TEST_CANVAS_SIZES_WIDTH*2, TEST_CANVAS_SIZES_HEIGHT *2;
+                        offset_x = floor(width / 2);
+                        offset_y = floor(height / 2);
+                        border = 2;
+                    }
+
+                    ImageShape image0
+                    {
+                        init()
+                        {
+                            is_visible=true;
+                             scaling_x = IMAGE_SCALING;
+                            scaling_y = scaling_x;
+                        }
+                    }
+
+                    TextShape instruction
+                    {
+                        init()
+                        {
+                            text = "LALALA";
+                            font_family = TEST_PAGE_STIMULUS_FONT_FAMILY;
+                            font_size = TEST_PAGE_STIMULUS_FONT_SIZE;
+                            line_pattern_color = TEST_PAGE_STIMULUS_TEXT_COLOR;
+                            hor_alignment = ALIGN_CENTER;
+                            //ver_alignment = ALIGN_CENTER;
+                            is_visible=true;
+                        }
+
+                        void set_below(ImageShape target_image)
+                        {
+                            this.y = (target_image.y + target_image.actual_height)*target_image.scaling_y;
+                        }
+                    }
+                }
+
+                void setup_text(string text)
+                {
+                    ImageShape image_object = middle_image_canvas.image0;
+                    middle_image_canvas.instruction.set_below(image_object);
+                    middle_image_canvas.instruction.text = text;
                 }
             }
 
@@ -225,12 +326,13 @@ Page test_page
 
                 init()
                 {
-                    regions.size = 4;
+                    regions.size = 5;
                     response_codes.size = 4;
                     regions[0] = region1; response_codes[0] = 1;
                     regions[1] = region2; response_codes[1] = 2;
                     regions[2] = region3; response_codes[2] = 3;
                     regions[3] = region4; response_codes[3] = 4;
+                    regions[4] = region0;
                 }
 
                 void highlight_regions()
@@ -245,6 +347,7 @@ Page test_page
                     }
                 }
 
+                CanvasGadget region0 {}
                 CanvasGadget region1 {}
                 CanvasGadget region2 {}
                 CanvasGadget region3 {}
@@ -252,6 +355,7 @@ Page test_page
 
                 void reload()
                 {
+                    copy_properties_from_to(middle_image_layout.middle_image_canvas, region0);
                     copy_properties_from_to(stimuli.image1canvas, region1);
                     copy_properties_from_to(stimuli.image2canvas, region2);
                     copy_properties_from_to(stimuli.image3canvas, region3);
@@ -271,25 +375,27 @@ Page test_page
             {
                 reset();
 
-                // Prepare stimulus presentation objects.
-                string[..] filenames;
-                filenames.size = 4;
+                stimuli.filenames.size = 5;
 
-                filenames[TOP_LEFT] = item.image_filename1;
-                filenames[TOP_RIGHT] = item.image_filename2;
-                filenames[BOTTOM_LEFT] = item.image_filename3;
-                filenames[BOTTOM_RIGHT] = item.image_filename4;
+                stimuli.filenames[CENTER] = item.image_filename0;
+                stimuli.filenames[TOP_LEFT] = item.image_filename1;
+                stimuli.filenames[TOP_RIGHT] = item.image_filename2;
+                stimuli.filenames[BOTTOM_LEFT] = item.image_filename3;
+                stimuli.filenames[BOTTOM_RIGHT] = item.image_filename4;
 
-                stimuli.load_all_images(filenames);
- 
-                regions_of_interests.reload();
-                regions_of_interests.start(t);
+                if(SHUFFLE_IMAGE_LOCATIONS)
+                    stimuli.filenames.shuffle(1,-1);
+
+                stimuli.load_all_images(stimuli.filenames);
+                middle_image_layout.setup_text(item.instruction);
 
                  if(HIGHLIGHT_REGION_OF_INTEREST)
                     regions_of_interests.highlight_regions();
-
+               
                 // Start picture stimuli.
                 stimuli.start(t);
+                middle_image_layout.middle_image_canvas.start(t);
+                regions_of_interests.start(stimuli.expected_start_time);
 
                 // Return stimulus onset time.
                 return stimuli.expected_start_time;
@@ -308,6 +414,8 @@ Page test_page
 
                 regions_of_interests.is_visible = false;
                 stimuli.is_visible = false;
+                middle_image_layout.middle_image_canvas.is_visible = false;
+
             } 
     }
 
@@ -336,6 +444,9 @@ Page test_page
         {
             abort();
 
+            if( item.sound_filename == "")
+                return t;
+
             playback.device = sound_output_device;
             clip.file = stimuli_dir() + "sounds/" + item.sound_filename;
 
@@ -349,7 +460,7 @@ Page test_page
     Response response
     {
         // Response data.
-        int     value;          // response value: 1=L,2=R,-1=timeout
+        string     value;          // response value: 1=L,2=R,-1=timeout
         int     rt;             // response time [ms]
         bool    recalibrate;    // set, when eye-tracker recalibration required
         int     correct;        // correct response: 0=no, 1=yes, -1=n.a. 
@@ -357,7 +468,7 @@ Page test_page
         void clear()
         {
             correct = -1; // correct response: 0=no, 1=yes, -1=n.a.  
-            value = -1;
+            value = "!!Missing!!";
             rt = -9999;
             recalibrate = false;
         }
@@ -371,14 +482,17 @@ Page test_page
             // response interval.
             if (validity == HIT_VALID)
             {
-                value = val;
+                value = layout.stimuli.retreive_filename_images(val);
+
                 rt = int(reaction_time(0));             
-                correct = val;
+                correct = value == item.image_correct_filename;
 
                 ignore_remaining_hits();
                 auditory_stimulus.abort();         
+
+                time hightlight_finish = layout.stimuli.highlight_image(val);
                 
-                stop(t + RECORD_EXTRA_AFTER_RESPONSE);
+                stop(hightlight_finish + RECORD_EXTRA_AFTER_RESPONSE);
             }
             else if (validity == HIT_TOO_EARLY || validity == HIT_TOO_LATE)
             {
@@ -399,8 +513,6 @@ Page test_page
     // of the trial that we're done.
     void done(int msgid)
     {
-        // Just in case; abort presentation if still active.
-        layout.reset();
         auditory_stimulus.abort();  
 
         signal_target(msgid);   // tell caller we're done
@@ -497,11 +609,14 @@ Page test_page
     // Starts a trial.
     void action(Object caller, TestItem it, time tref, int count=-1)
     {
+        // Just in case; abort presentation if still active.
+        layout.reset();
+
         // Save passed trial control parameters.
         item = it;
 
         // Show this page (if not yet done) and make tref the trial start time.
-        tref = test_window1.show_test_page(this, tref + INTERTRIAL_INTERVAL);
+        test_window1.show_page(this, tref, 0ms);
 
         // Reset response data.
         response.clear();
@@ -514,24 +629,24 @@ Page test_page
          if (item.do_drift_check)
             drift_check_timer.start(tref);
         else 
-            start_actual_presentation();
+            start_actual_presentation(tref);
      
         // Update progress counter (if enabled).
         test_page_overlay.update_progress_bar(count);
 
         // Update status line on control window. Cleared in done() above.
-        control.set_status(string(item.id) + "  " + string(item.sound_filename));
+        control.set_status(string(item.id) + "  " + string(item.image_correct_filename));
 
         // Remember who to signal when the trial is over.
         target = caller;
     }
 
-    void  start_actual_presentation()
+    void  start_actual_presentation(time tref)
     {
         if (item.record_eye_movements) 
             eyetracker.start_tracking();
 
-        time visstimonset = layout.start_stimulus(event_time + DC_VISUAL_DELAY);
+        time visstimonset = layout.start_stimulus(tref + DC_VISUAL_DELAY);
 
         time audstimonset = auditory_stimulus.play(visstimonset + AUDITORY_DELAY);
         time audstimoffset = auditory_stimulus.expected_finish_time;

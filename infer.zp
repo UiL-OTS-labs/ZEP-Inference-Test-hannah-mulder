@@ -61,6 +61,7 @@ import std_sound_output_device;
 //specials:
 import texts_en;
 import eyetracker_eyelink;
+import fixation_cross_page;
 //import eyetracker_tobii;
 import test_page;
 
@@ -116,7 +117,10 @@ Experiment experiment
     {
         on_event:entry()
         {
-            etcal_page.action(this);
+            if(USE_EYETRACKING)
+                etcal_page.action(this);
+            else
+                this.signal(this, CONTINUE);
         }
     }
 
@@ -128,7 +132,7 @@ Experiment experiment
             experiment.open_data_file();
 
             num_cycles = test_prac_items.size;
-            test_page.setup(num_cycles);
+            test_page.setup(-1);
         }
 
         on_event:exit()
@@ -157,7 +161,7 @@ Experiment experiment
             {
                 on_event:entry()
                 {
-                    presentation.enter();       // Skip calibration part.
+                    fixation.enter();       // Skip calibration part.
                 }
             }
 
@@ -169,11 +173,28 @@ Experiment experiment
                 }
             }
 
+            Part fixation
+            {
+                on_event:entry()
+                {
+                    fixation_cross_page.set_progress_bar(0,-1);
+                    fixation_cross_page.action(this);
+                }
+            }
+
             SubTrial presentation
             {
                 on_event:entry()
                 {
-                    test_page.action(this, current_item, reference_time, test.cycle);
+                    test_page.action(this, current_item, reference_time, practice.cycle);
+                }
+            }
+
+            Part 
+            {
+                on_event:entry()
+                {
+                    blank_page.action_auto(this, 500ms);
                 }
             }
 
@@ -181,7 +202,7 @@ Experiment experiment
             {
                 on_event:entry()
                 {
-                    if (test_page.response.recalibrate)
+                    if (test_page.response.recalibrate && USE_EYETRACKING)
                         recalibration.enter(); 
                 }
             }
@@ -209,9 +230,12 @@ Experiment experiment
 
     Part calibration2
     {
-        on_event:entry()
+         on_event:entry()
         {
-            etcal_page.action(this);
+            if(USE_EYETRACKING)
+                etcal_page.action(this);
+            else
+                this.signal(this, CONTINUE);
         }
     }
 
@@ -221,8 +245,8 @@ Experiment experiment
         {	
             experiment.open_data_file();
 
-            num_cycles = test_items[selected_group].size;
-            test_page.setup(num_cycles);
+            num_cycles = test_items.size;
+            test_page.setup(-1);
         }
 
         on_event:exit()
@@ -244,7 +268,7 @@ Experiment experiment
 
             on_event:entry()
             {
-                current_item = test_items[selected_group][test.cycle];
+                current_item = test_items[test.cycle];
 
                 // Add begin of trial message to eye-tracker data file for
                 // analysis with the Fixation tool (Cozijn 1994).
@@ -262,10 +286,11 @@ Experiment experiment
                 current_output.type = current_item.type;
                 current_output.target_onset = current_item.target_onset;
 
-                current_output.image_filename1 = current_item.image_filename1;
-                current_output.image_filename2 = current_item.image_filename2;
-                current_output.image_filename3 = current_item.image_filename3;
-                current_output.image_filename4 = current_item.image_filename4;
+                current_output.CENTER_image = test_page.layout.stimuli.filenames[CENTER];
+                current_output.TOP_LEFT_image = test_page.layout.stimuli.filenames[TOP_LEFT];
+                current_output.TOP_RIGHT_image = test_page.layout.stimuli.filenames[TOP_RIGHT];
+                current_output.BOTTOM_LEFT_image = test_page.layout.stimuli.filenames[BOTTOM_LEFT];
+                current_output.BOTTOM_RIGHT_image = test_page.layout.stimuli.filenames[BOTTOM_RIGHT];
 
                 current_output.sound_filename = current_item.sound_filename;
                 current_output.recorded_eye_movements = current_item.record_eye_movements;
@@ -273,6 +298,7 @@ Experiment experiment
 
                 //test specific output:
                 current_output.value = test_page.response.value;
+                current_output.correct = test_page.response.correct;
                 current_output.rt = test_page.response.rt;
 
                 test_output_append(current_output);
@@ -287,7 +313,7 @@ Experiment experiment
             {
                 on_event:entry()
                 {
-                    presentation.enter();       // Skip calibration part.
+                    fixation.enter();       // Skip calibration part.
                 }
             }
 
@@ -301,6 +327,15 @@ Experiment experiment
             }
 
 
+            Part fixation
+            {
+                on_event:entry()
+                {
+                    fixation_cross_page.set_progress_bar(0,-1);
+                    fixation_cross_page.action(this);
+                }
+            }
+            
             SubTrial presentation
             {
                 on_event:entry()
@@ -309,11 +344,19 @@ Experiment experiment
                 }
             }
 
+             Part 
+            {
+                on_event:entry()
+                {
+                    blank_page.action_auto(this, 500ms);
+                }
+            }
+
             TransientPart recalibrate_check
             {
                 on_event:entry()
                 {
-                    if (test_page.response.recalibrate)
+                    if (test_page.response.recalibrate && USE_EYETRACKING)
                         recalibration.enter(); 
                 }
             }

@@ -1,0 +1,196 @@
+/******************************************************************************\
+FILE:           std_pause_page.zm
+AUTHOR:         Theo Veenker <theo.veenker@beexy.nl>
+ADAPTED BY:     -
+
+DESCRIPTION:
+
+Provides a page object for displaying messages. It consists of a message area 
+and an OK button.
+
+
+HISTORY:
+2009-12-02 TV   Created as part of the standard Zep modules.
+
+\******************************************************************************/
+
+
+Page fixation_cross_page
+{
+    bool        checkkeys;      // if set, continue keys enabled
+
+
+    init()
+    {
+        fill_pattern_color = TEST_PAGE_COLOR;
+    }
+
+
+    on_event:key_press()
+    {
+        if (target != null && checkkeys && 
+                (input_key == KEY_Return || input_key == ' '))
+            done(CONTINUE);
+        else
+            handle_special_key(this, input_key, input_modifiers);
+    }
+
+
+    on_event:message()
+    {
+        // Handle 'continue' message received from control page.
+        if (message_arg == CONTINUE)
+            done(CONTINUE);
+    }
+
+
+    VerticalLayout layout
+    {
+        init()
+        {
+            options = LAYOUT_SHRINK_ITEMS;
+            spacing = 50;
+        }
+ 
+        CanvasGadget canvas
+        {
+            init()
+            {
+                size = 450, 450;
+                offset_x = width / 2;
+                offset_y = height / 2;
+            }
+ 
+ 
+            CrossShape fixation
+            {
+                init()
+                {
+                    radius = 15;
+                    line_width = 5;
+                    line_pattern_color = color:crimson;
+                    is_visible = true;
+                }
+            }
+        }
+    }
+
+
+    Timer timer
+    {
+        on_event:expire()
+        {
+            done(TIMEOUT);
+        }
+    }
+
+
+    void done(int msgid)
+    {
+        timer.abort();
+
+        checkkeys = false;
+
+        signal_target(msgid);   // Tell caller we're done.
+        target = null;
+
+        if (control.target == this)
+        {
+            control.disable_keys();
+            control.target = null;
+        }
+    }
+
+
+    //==========================================================================
+
+    void set_progress_bar( int trail, int ntrials)
+    {
+        test_page_overlay.setup(this);
+
+        // Enable or disable the progress bar.
+        test_page_overlay.show_progress_bar(ntrials);   // disabled if < 0
+        
+          // Update progress counter (if enabled).
+        test_page_overlay.update_progress_bar(trail);
+    }
+    
+    void action_auto(dur timeout=0s, 
+        dur showdelay=-1s, dur fadedur=-1s)
+    {
+        action(null, timeout, showdelay, fadedur, false);
+    }
+
+
+    void action_auto(Object caller, dur timeout=0s, 
+        dur showdelay=-1s, dur fadedur=-1s)
+    {
+        action(caller, timeout, showdelay, fadedur, false);
+    }
+
+
+    void action(Object caller, dur timeout=0s, 
+        dur showdelay=-1s, dur fadedur=-1s, bool kbd=true)
+    {
+        timer.abort();
+
+        // Force page show delay and transition duration in sane range.
+        if (showdelay < 0s) showdelay = PAGE_TRANSITION_DELAY;
+        else showdelay = limit(showdelay, 0s, MAX_PAGE_TRANSITION_DELAY);
+        if (fadedur < 0s) fadedur = PAGE_TRANSITION_DURATION;
+        else fadedur = limit(fadedur, 0s, MAX_PAGE_TRANSITION_DURATION);
+
+    	// Clear page transition delay.
+    	page_transition_delay = 0s;
+
+	// Let's delay the first test page trial following this page.
+	first_trial_delay = FIRST_TRIAL_EXTRA_DELAY;
+
+        if (test_window1.show_page(this, now() + showdelay, fadedur) == 0)
+        {
+            // Page not yet shown. Extend timeout period (if applicable) 
+            // until page is fully visible (fade-in has finished).
+            if (timeout > 0s) 
+                timeout += expected_transition_finish_time - now();
+        }
+
+        if (caller != null)
+        {
+            checkkeys = kbd && !test_window1.is_output_only();
+            if (timeout > 0s) timer.start(now() + timeout);
+
+            target = caller;
+            control.target = this;
+            control.disable_keys();
+            control.enable_key(KEY_Return, CONTINUE);
+            control.enable_key(' ', CONTINUE);
+//          control.enable_key(KEY_Escape, CONTINUE);
+
+            if (checkkeys)
+                test_window1.activate();
+            else if (test_window1.is_output_only())
+                ctrl_window.activate();
+        }
+        else
+        {
+            checkkeys = false;
+            target = null;
+        }
+    }
+
+
+    void stop_action()
+    {
+        timer.abort();
+
+        checkkeys = false;
+
+        target = null;
+
+        if (control.target == this)
+        {
+            control.disable_keys();
+            control.target = null;
+        }
+    }
+}

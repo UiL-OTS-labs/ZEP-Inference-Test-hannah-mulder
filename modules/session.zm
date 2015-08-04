@@ -14,7 +14,7 @@ int setup_session()
 {
   if(load_stimuli() == ERROR) return ERROR;
   if(all_stimuli_items_exist()==ERROR) return ERROR;
-  if(shuffle_stimuli(selected_group) == ERROR) return ERROR;
+  if(shuffle_stimuli() == ERROR) return ERROR;
   
   return OK;
 }
