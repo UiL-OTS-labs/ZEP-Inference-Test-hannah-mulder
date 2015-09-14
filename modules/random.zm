@@ -49,24 +49,6 @@ int shuffle_test_items()
 // Checks validity of item at position n in specified items table.
 bool is_allowed_item_sequence(TestItem[] items, int n)
 {
-    // First item must be a filler item.
-    if (n == 0 && items[n].type != FILLER) return false;
-
-    if (items[n].type == FILLER) return true;
-
-    // Item is non-filler.
-
-    // The maximum number of subsequent non-filler items is 3.
-    if (n >= 3 && 
-        items[n-1].type != FILLER &&
-        items[n-2].type != FILLER &&
-        items[n-3].type != FILLER) return false;
-
-    // The maximum number of subsequent same type non-filler items is 2.
-    if (n >= 2 && 
-        items[n].type == items[n-1].type &&
-        items[n].type == items[n-2].type) return false;
-
     return true;
 }
 

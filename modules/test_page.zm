@@ -114,6 +114,56 @@ Page test_page
                 }
             }
 
+            VerticalLayout middle_image_layout
+            {
+                CanvasGadget middle_image_canvas
+                {
+                    init()
+                    {
+                        size = TEST_CANVAS_SIZES_WIDTH*2, TEST_CANVAS_SIZES_HEIGHT *2;
+                        offset_x = floor(width / 2);
+                        offset_y = floor(height / 2);
+                        border = 2;
+                    }
+
+                    ImageShape image0
+                    {
+                        init()
+                        {
+                            is_visible=true;
+                             scaling_x = IMAGE_SCALING;
+                            scaling_y = scaling_x;
+                        }
+                    }
+
+                    TextShape instruction
+                    {
+                        init()
+                        {
+                            text = "LALALA";
+                            font_family = TEST_PAGE_STIMULUS_FONT_FAMILY;
+                            font_size = TEST_PAGE_STIMULUS_FONT_SIZE;
+                            line_pattern_color = TEST_PAGE_STIMULUS_TEXT_COLOR;
+                            hor_alignment = ALIGN_CENTER;
+                            //ver_alignment = ALIGN_CENTER;
+                            is_visible=true;
+                        }
+
+                        void set_below(ImageShape target_image, int spacing)
+                        {
+                            this.y = (target_image.y + target_image.actual_height + spacing)*target_image.scaling_y;
+                        }
+                    }
+                }
+
+                void setup_text(string text)
+                {
+                    ImageShape image_object = middle_image_canvas.image0;
+                    middle_image_canvas.instruction.set_below(image_object, -SPACING_INSTRUCTION_STIMULI_PICTURE);
+                    middle_image_canvas.instruction.text = text;
+                }
+            }
+            
             HorGridLayout stimuli
             {
                 CanvasGadget[..] images;
@@ -266,56 +316,6 @@ Page test_page
                     target_image.image = stimuli_dir() + "/images/" + filename;
                     target_image.x = floor(-target_image.actual_width / 2);
                     target_image.y = floor(-target_image.actual_height / 2);
-                }
-            }
-
-            VerticalLayout middle_image_layout
-            {
-                CanvasGadget middle_image_canvas
-                {
-                    init()
-                    {
-                        size = TEST_CANVAS_SIZES_WIDTH*2, TEST_CANVAS_SIZES_HEIGHT *2;
-                        offset_x = floor(width / 2);
-                        offset_y = floor(height / 2);
-                        border = 2;
-                    }
-
-                    ImageShape image0
-                    {
-                        init()
-                        {
-                            is_visible=true;
-                             scaling_x = IMAGE_SCALING;
-                            scaling_y = scaling_x;
-                        }
-                    }
-
-                    TextShape instruction
-                    {
-                        init()
-                        {
-                            text = "LALALA";
-                            font_family = TEST_PAGE_STIMULUS_FONT_FAMILY;
-                            font_size = TEST_PAGE_STIMULUS_FONT_SIZE;
-                            line_pattern_color = TEST_PAGE_STIMULUS_TEXT_COLOR;
-                            hor_alignment = ALIGN_CENTER;
-                            //ver_alignment = ALIGN_CENTER;
-                            is_visible=true;
-                        }
-
-                        void set_below(ImageShape target_image)
-                        {
-                            this.y = (target_image.y + target_image.actual_height)*target_image.scaling_y;
-                        }
-                    }
-                }
-
-                void setup_text(string text)
-                {
-                    ImageShape image_object = middle_image_canvas.image0;
-                    middle_image_canvas.instruction.set_below(image_object);
-                    middle_image_canvas.instruction.text = text;
                 }
             }
 

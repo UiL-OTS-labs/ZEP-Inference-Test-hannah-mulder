@@ -1,5 +1,5 @@
    ### Practice phase items ###;;;;;;;;;;;;
 id;type;target_onset;image_filename0;instruction;image_filename1;image_filename2;image_filename3;image_filename4;image_correct_filename;sound_filename;record_eye_movements;do_drift_check
-1;FILLER;0;octocat.svg;This is an instruction! Select the drill!;hammer.png;apple.png;drill.png;lemon.png;drill.png;;false;false
-2;FILLER;0;octocat.svg;This is an instruction! Select the apple!;hammer.png;apple.png;drill.png;lemon.png;apple.png;;false;false
-3;FILLER;0;octocat.svg;This is an instruction! Select the hammer!;hammer.png;apple.png;drill.png;lemon.png;hammer.png;;false;false
+1;A;0;yoni_neutral_top_right.png;Yoni is thinking of ____;konijn.png;ezel.png;haai.png;schildpad.png;ezel.png;;false;false
+2;A;0;yoni_neutral_top_right.png;Yoni is thinking of ____;konijn.png;ezel.png;haai.png;schildpad.png;ezel.png;;false;false
+3;A;0;yoni_neutral_top_right.png;Yoni is thinking of ____;konijn.png;ezel.png;haai.png;schildpad.png;ezel.png;;false;false

@@ -63,7 +63,7 @@ Experiment experiment
     {
         on_event:entry()
         {	
-            num_cycles = test_items[selected_group].size;
+            num_cycles = test_items.size;
             test_page.setup(num_cycles);
         }
 
@@ -80,7 +80,7 @@ Experiment experiment
 
             on_event:entry()
             {
-                current_item = test_items[selected_group][test.cycle];
+                current_item = test_items[test.cycle];
             }
             
 

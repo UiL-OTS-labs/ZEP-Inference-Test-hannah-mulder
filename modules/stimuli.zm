@@ -21,10 +21,9 @@ plugin zep_file;
 // Symbolic definition of item type.
 enum ItemType
 {
-    FILLER,
-    COGNITIVE,            // practice trials
-    AFFECTIVE,             // condition A
-    PHYSICAL,             // condition B
+    A,
+    B,
+    C
 }
 
 enum ScreenLocation
