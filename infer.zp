@@ -1,7 +1,7 @@
 /******************************************************************************\
 FILE:           infer.zp
 AUTHOR:         Chris van Run (C.P.A.vanrun@uu.nl)
-MODIFIED BY:    --
+MODIFIED BY:    Rianne Vlaar (M.A.J.Vlaar@students.uu.nl)
 
 EXPERIMENT:     Five Image Visual World
 
@@ -13,7 +13,8 @@ Selection is highlighted for a short while.
 Eyetracking is possible but turned off by default. To turn on make sure the correct booleans are set in the test_items and defs: USE_EYETRACKING.
 
 HISTORY:
-2015-08-04 Adapated
+2015-08-04 CvR	Adapated
+2015-09-15 RV	Changed English texts into Dutch texts
  
 \******************************************************************************/
 
@@ -29,7 +30,7 @@ import std_etcal_page;
 import std_sound_output_device;
 
 //specials:
-import texts_en;
+import texts_nl;
 import eyetracker_eyelink;
 import fixation_cross_page;
 //import eyetracker_tobii;

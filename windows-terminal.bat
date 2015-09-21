@@ -12,7 +12,6 @@ rem ----------------------------------------------------------------------------
 
 title Zep Console Window
 color 70
-mode 100,40
 
 if "%ZEP_DIR%" == "" goto SKIP1
 set INITIAL_ZEP_DIR=%ZEP_DIR%
