@@ -102,28 +102,27 @@ Page test_page
                 return stimuli.y_abs+(stimuli.actual_height/2); 
             }
 
-            VerticalLayout background
-            {
-                CanvasGadget
-                {
-                    init()
-                    {
-                        //fill_pattern_color = color:white;
-                        size = 800, 800;
-                    }
-                }
-            }
-
             VerticalLayout middle_image_layout
             {
                 CanvasGadget middle_image_canvas
                 {
+                    on_event:resize()
+                    {
+                        setup_size();
+                    }
+
                     init()
                     {
-                        size = TEST_CANVAS_SIZES_WIDTH*2, TEST_CANVAS_SIZES_HEIGHT *2;
+                        border = 2;
+                        scaling_x = IMAGE_SCALING;
+                        scaling_y = scaling_x;
+                    }
+
+                    void setup_size()
+                    {
+                        size = test_window1.width,test_window1.height;
                         offset_x = floor(width / 2);
                         offset_y = floor(height / 2);
-                        border = 2;
                     }
 
                     ImageShape image0
@@ -131,8 +130,6 @@ Page test_page
                         init()
                         {
                             is_visible=true;
-                             scaling_x = IMAGE_SCALING;
-                            scaling_y = scaling_x;
                         }
                     }
 
