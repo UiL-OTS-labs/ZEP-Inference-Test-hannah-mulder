@@ -1,0 +1,68 @@
+/******************************************************************************\
+FILE:           std_texts_nl.zm
+AUTHOR:         Theo Veenker <theo.veenker@beexy.nl>
+ADAPTED BY:     Rianne Vlaar
+
+DESCRIPTION:
+
+Defines texts on buttons and other graphic elements.
+English version.
+
+
+HISTORY:
+2009-12-02 TV   Created as part of the standard Zep modules.
+2015-09-17 RV	Translated to Dutch.
+
+\******************************************************************************/
+
+
+// Button texts.
+const string    CONTINUE_BUTTON_TEXT            = "Ga door";
+const string    NEXT_BUTTON_TEXT                = "Volgende";
+const string    REPEAT_BUTTON_TEXT              = "Herhaal";
+const string    YES_BUTTON_TEXT                 = "Ja";
+const string    NO_BUTTON_TEXT                  = "Nee";
+const string    TRUE_BUTTON_TEXT                = "Waar";
+const string    FALSE_BUTTON_TEXT               = "Niet waar";
+const string    CORRECT_BUTTON_TEXT             = "Correct";
+const string    INCORRECT_BUTTON_TEXT           = "Niet correct";
+const string    FIRST_BUTTON_TEXT               = "Eerste";
+const string    SECOND_BUTTON_TEXT              = "Tweede";
+
+
+// Other texts.
+const string    WELCOME_TEXT                    = "Welkom";
+const string    THANK_YOU_TEXT                  = "Einde van het experiment.\n\nBedankt!";
+
+const string INSTRUCTION_TEXT =  
+"<b>Beste participant,</b>\n"
+"\n"
+"Bedankt voor het meedoen aan dit experiment.\n"
+"\n"
+"Tijdens deze taak zie je Yoni. Yoni verwijst naar mensen en "
+"objecten om hem heen. Jouw taak is om te bepalen naar welke "
+"persoon of welk object Yoni verwijst. Je kunt kiezen uit "
+"vier personen of objecten, die zich in de hoeken van het " 
+"scherm bevinden.\n" 
+"\n"
+"Selecteer de goede persoon of het goede object door middel "
+"van het nummerieke deel van het toetsenbord. 1 is voor de "
+"persoon of het object linksonder, 2 voor rechtsonder, 4 voor " 
+"linksboven en 5 voor rechtsboven. Zorg dat je het nummerieke "
+"deel van het toetsenbord gebruiks, zodat de positie van de "
+"nummers overeenkomt met de positie van de personen/objecten "
+"op het scherm.\n"
+"\n"
+"Iedere trial start met een fixeerkruisje. Kijk naar het "
+"kruisje en druk op de spatiebalk als je klaar bent voor een "
+"nieuw trial.\n"
+"\n"
+"<i>Druk op enter of de knop hieronder om te beginnen.</i>";
+
+const string PRACTICE_PAUSE_TEXT = 
+ "Einde van het oefendeel.\n"
+"\n"
+"Als je nog vragen hebt, kun je ze nu aan de experimentleider "
+"stellen. \n"
+"\n"
+"<i>Druk op enter als je klaar bent om verder te gaan.</i>";

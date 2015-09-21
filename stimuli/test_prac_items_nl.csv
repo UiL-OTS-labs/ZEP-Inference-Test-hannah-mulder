@@ -1,0 +1,5 @@
+   ### Practice phase items ###;;;;;;;;;;;;
+id;type;target_onset;image_filename0;instruction;image_filename1;image_filename2;image_filename3;image_filename4;image_correct_filename;sound_filename;record_eye_movements;do_drift_check
+1;A;0;yoni_neutral_top_right.png;Yoni denkt aan ____;konijn.png;ezel.png;haai.png;schildpad.png;ezel.png;;false;false
+2;A;0;yoni_neutral_top_right.png;Yoni denkt aan ____;konijn.png;ezel.png;haai.png;schildpad.png;ezel.png;;false;false
+3;A;0;yoni_neutral_top_right.png;Yoni denkt aan ____;konijn.png;ezel.png;haai.png;schildpad.png;ezel.png;;false;false
