@@ -33,6 +33,8 @@ const string    SECOND_BUTTON_TEXT              = "Second";
 const string    WELCOME_TEXT                    = "Welcome";
 const string    THANK_YOU_TEXT                  = "End of Experiment\n\nThank you very much!";
 
+const string INTRO_FIGURE_CAPTION = "This is Yoni";
+
 const string INSTRUCTION_TEXT =  
 "<b>Dear participant,</b>\n"
 "\n"

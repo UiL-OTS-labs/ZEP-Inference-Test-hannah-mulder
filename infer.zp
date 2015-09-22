@@ -31,6 +31,7 @@ import std_sound_output_device;
 
 //specials:
 import texts_nl;
+import picture_page;
 import eyetracker_eyelink;
 import fixation_cross_page;
 //import eyetracker_tobii;
@@ -103,6 +104,16 @@ Experiment experiment
         }
     }
 
+    Part picture_intro
+    {
+        on_event:entry()
+        {
+            picture_page.set_image(stimuli_dir() + "images/" + "yoni_happy_front.png");
+            picture_page.set_text(INTRO_FIGURE_CAPTION, true);
+            picture_page.action(this);
+            control.button_box.enable_all_buttons(CONTINUE);
+        }
+    }
 
     Part calibration1
     {
