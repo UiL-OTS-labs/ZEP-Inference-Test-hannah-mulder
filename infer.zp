@@ -41,10 +41,30 @@ Experiment experiment
 {
     on_event:entry()
     {   
+        if(test_existence_of_all_test_items()==ERROR)
+            terminate;
+
         //remember, a lot of setting up is already done in session.zm::setup_session()
         show_test_windows();
 
         setup_button_box();
+    }
+
+    int test_existence_of_all_test_items()
+    {
+            if(load_stimuli("test_prac_items.csv")==ERROR) return ERROR;
+            if(all_stimuli_items_exist()==ERROR) return ERROR;
+
+            if(load_stimuli("A_test_items.csv")==ERROR) return ERROR;
+            if(all_stimuli_items_exist()==ERROR) return ERROR;
+
+            if(load_stimuli("B_test_items.csv")==ERROR) return ERROR;
+            if(all_stimuli_items_exist()==ERROR) return ERROR;
+
+            if(load_stimuli("C_test_items.csv")==ERROR) return ERROR;
+            if(all_stimuli_items_exist()==ERROR) return ERROR;
+
+            return OK;
     }
 
     void setup_button_box()
@@ -100,9 +120,10 @@ Experiment experiment
     {
         on_event:entry()
         {
+            load_stimuli("test_prac_items.csv");
             experiment.open_data_file();
 
-            num_cycles = test_prac_items.size;
+            num_cycles = test_items.size;
             test_page.setup(-1);
         }
 
@@ -119,7 +140,7 @@ Experiment experiment
 
             on_event:entry()
             {
-                current_item = test_prac_items[practice.cycle];
+                current_item = test_items[practice.cycle];
                 eyetracker.set_tracker_status_message("Practice trial " +  string(practice.cycle+1));
             }
 
@@ -210,10 +231,14 @@ Experiment experiment
         }
     }
 
-    Block test
+    Block testA
     {
         on_event:entry()
         {	
+            load_stimuli("A_test_items.csv");
+            if(shuffle_stimuli()==ERROR)
+                terminate;
+
             experiment.open_data_file();
 
             num_cycles = test_items.size;
@@ -239,20 +264,20 @@ Experiment experiment
 
             on_event:entry()
             {
-                current_item = test_items[test.cycle];
+                current_item = test_items[testA.cycle];
 
                 // Add begin of trial message to eye-tracker data file for
                 // analysis with the Fixation tool (Cozijn 1994).
-                eyetracker.print_to_data_file("trialbeg " +  string(test.cycle + 1) + " " + format(current_item.id,3) + " " + string(current_item.type));
+                eyetracker.print_to_data_file("trialbeg " +  string(testA.cycle + 1) + " " + format(current_item.id,3) + " " + string(current_item.type));
                 eyetracker.print_to_data_file("plafile " + string(current_item.type) + format(current_item.id,3) + ".bmp");
                 eyetracker.print_to_data_file("wavfile " + current_item.sound_filename); 
 
-                eyetracker.set_tracker_status_message("Test trial " + string(test.cycle+1));
+                eyetracker.set_tracker_status_message("Test trial " + string(testA.cycle+1));
             }
             
             on_event:exit()
             {
-                current_output.trialnum = test.cycle + 1;
+                current_output.trialnum = testA.cycle + 1;
                 current_output.id = current_item.id;
                 current_output.type = current_item.type;
                 current_output.target_onset = current_item.target_onset;
@@ -275,7 +300,7 @@ Experiment experiment
                 test_output_append(current_output);
 
                 // Add end of trial message.
-                eyetracker.print_to_data_file("trialend " + string(test.cycle + 1) + " " + format(current_item.id,3) + " " + string(current_item.type));
+                eyetracker.print_to_data_file("trialend " + string(testA.cycle + 1) + " " + format(current_item.id,3) + " " + string(current_item.type));
 
                 eyetracker.set_tracker_status_message("");
             }
@@ -311,7 +336,7 @@ Experiment experiment
             {
                 on_event:entry()
                 {
-                    test_page.action(this, current_item, reference_time, test.cycle);
+                    test_page.action(this, current_item, reference_time, testA.cycle);
                 }
             }
 
@@ -342,6 +367,305 @@ Experiment experiment
         }
     }
 
+     Part
+    {
+        on_event:entry()
+        {
+            pause_page.set_text(AB_PAUSE_TEXT, true);
+            pause_page.action(this);
+            control.button_box.enable_all_buttons(CONTINUE);
+        }
+    }
+
+    Part
+    {
+        on_event:entry()
+        {
+            blank_page.action_auto(this, 500ms, 500ms);
+        }
+    }
+
+    Block testB
+    {
+        on_event:entry()
+        {   
+            load_stimuli("B_test_items.csv");
+            if(shuffle_stimuli()==ERROR)
+                terminate;
+
+            experiment.open_data_file();
+
+            num_cycles = test_items.size;
+            test_page.setup(-1);
+        }
+
+        on_event:exit()
+        {
+            test_page.cleanup();
+
+            eyetracker.abort();
+            eyetracker.close_data_file();
+
+            // Save test phase output table as CSV file.
+            test_output_save();
+        }
+
+
+        Trial trial
+        {
+            TestItem        current_item; 
+            TestOutput     current_output;
+
+            on_event:entry()
+            {
+                current_item = test_items[testB.cycle];
+
+                // Add begin of trial message to eye-tracker data file for
+                // analysis with the Fixation tool (Cozijn 1994).
+                eyetracker.print_to_data_file("trialbeg " +  string(testB.cycle + 1) + " " + format(current_item.id,3) + " " + string(current_item.type));
+                eyetracker.print_to_data_file("plafile " + string(current_item.type) + format(current_item.id,3) + ".bmp");
+                eyetracker.print_to_data_file("wavfile " + current_item.sound_filename); 
+
+                eyetracker.set_tracker_status_message("Test trial " + string(testB.cycle+1));
+            }
+            
+            on_event:exit()
+            {
+                current_output.trialnum = testB.cycle + 1;
+                current_output.id = current_item.id;
+                current_output.type = current_item.type;
+                current_output.target_onset = current_item.target_onset;
+
+                current_output.CENTER_image = test_page.layout.stimuli.filenames[CENTER];
+                current_output.TOP_LEFT_image = test_page.layout.stimuli.filenames[TOP_LEFT];
+                current_output.TOP_RIGHT_image = test_page.layout.stimuli.filenames[TOP_RIGHT];
+                current_output.BOTTOM_LEFT_image = test_page.layout.stimuli.filenames[BOTTOM_LEFT];
+                current_output.BOTTOM_RIGHT_image = test_page.layout.stimuli.filenames[BOTTOM_RIGHT];
+
+                current_output.sound_filename = current_item.sound_filename;
+                current_output.recorded_eye_movements = current_item.record_eye_movements;
+                current_output.did_drift_check = current_item.do_drift_check;
+
+                //test specific output:
+                current_output.value = test_page.response.value;
+                current_output.correct = test_page.response.correct;
+                current_output.rt = test_page.response.rt;
+
+                test_output_append(current_output);
+
+                // Add end of trial message.
+                eyetracker.print_to_data_file("trialend " + string(testB.cycle + 1) + " " + format(current_item.id,3) + " " + string(current_item.type));
+
+                eyetracker.set_tracker_status_message("");
+            }
+
+            TransientPart
+            {
+                on_event:entry()
+                {
+                    fixation.enter();       // Skip calibration part.
+                }
+            }
+
+
+            Part recalibration
+            {
+                on_event:entry()
+                {
+                    etcal_page.action(this);
+                }
+            }
+
+
+            Part fixation
+            {
+                on_event:entry()
+                {
+                    fixation_cross_page.set_progress_bar(0,-1);
+                    fixation_cross_page.action(this);
+                }
+            }
+            
+            SubTrial presentation
+            {
+                on_event:entry()
+                {
+                    test_page.action(this, current_item, reference_time, testB.cycle);
+                }
+            }
+
+             Part 
+            {
+                on_event:entry()
+                {
+                    blank_page.action_auto(this, 500ms);
+                }
+            }
+
+            TransientPart recalibrate_check
+            {
+                on_event:entry()
+                {
+                    if (test_page.response.recalibrate && USE_EYETRACKING)
+                        recalibration.enter(); 
+                }
+            }
+        }
+    }
+
+     Part
+    {
+        on_event:entry()
+        {
+            blank_page.action_auto(this, 500ms, 500ms);
+        }
+    }
+
+     Part
+    {
+        on_event:entry()
+        {
+            pause_page.set_text(BC_PAUSE_TEXT, true);
+            pause_page.action(this);
+            control.button_box.enable_all_buttons(CONTINUE);
+        }
+    }
+
+    Part
+    {
+        on_event:entry()
+        {
+            blank_page.action_auto(this, 500ms, 500ms);
+        }
+    }
+
+    Block testC
+    {
+        on_event:entry()
+        {   
+            load_stimuli("C_test_items.csv");
+            if(shuffle_stimuli()==ERROR)
+                terminate;
+
+            experiment.open_data_file();
+
+            num_cycles = test_items.size;
+            test_page.setup(-1);
+        }
+
+        on_event:exit()
+        {
+            test_page.cleanup();
+
+            eyetracker.abort();
+            eyetracker.close_data_file();
+
+            // Save test phase output table as CSV file.
+            test_output_save();
+        }
+
+
+        Trial trial
+        {
+            TestItem        current_item; 
+            TestOutput     current_output;
+
+            on_event:entry()
+            {
+                current_item = test_items[testC.cycle];
+
+                // Add begin of trial message to eye-tracker data file for
+                // analysis with the Fixation tool (Cozijn 1994).
+                eyetracker.print_to_data_file("trialbeg " +  string(testC.cycle + 1) + " " + format(current_item.id,3) + " " + string(current_item.type));
+                eyetracker.print_to_data_file("plafile " + string(current_item.type) + format(current_item.id,3) + ".bmp");
+                eyetracker.print_to_data_file("wavfile " + current_item.sound_filename); 
+
+                eyetracker.set_tracker_status_message("Test trial " + string(testC.cycle+1));
+            }
+            
+            on_event:exit()
+            {
+                current_output.trialnum = testC.cycle + 1;
+                current_output.id = current_item.id;
+                current_output.type = current_item.type;
+                current_output.target_onset = current_item.target_onset;
+
+                current_output.CENTER_image = test_page.layout.stimuli.filenames[CENTER];
+                current_output.TOP_LEFT_image = test_page.layout.stimuli.filenames[TOP_LEFT];
+                current_output.TOP_RIGHT_image = test_page.layout.stimuli.filenames[TOP_RIGHT];
+                current_output.BOTTOM_LEFT_image = test_page.layout.stimuli.filenames[BOTTOM_LEFT];
+                current_output.BOTTOM_RIGHT_image = test_page.layout.stimuli.filenames[BOTTOM_RIGHT];
+
+                current_output.sound_filename = current_item.sound_filename;
+                current_output.recorded_eye_movements = current_item.record_eye_movements;
+                current_output.did_drift_check = current_item.do_drift_check;
+
+                //test specific output:
+                current_output.value = test_page.response.value;
+                current_output.correct = test_page.response.correct;
+                current_output.rt = test_page.response.rt;
+
+                test_output_append(current_output);
+
+                // Add end of trial message.
+                eyetracker.print_to_data_file("trialend " + string(testC.cycle + 1) + " " + format(current_item.id,3) + " " + string(current_item.type));
+
+                eyetracker.set_tracker_status_message("");
+            }
+
+            TransientPart
+            {
+                on_event:entry()
+                {
+                    fixation.enter();       // Skip calibration part.
+                }
+            }
+
+
+            Part recalibration
+            {
+                on_event:entry()
+                {
+                    etcal_page.action(this);
+                }
+            }
+
+
+            Part fixation
+            {
+                on_event:entry()
+                {
+                    fixation_cross_page.set_progress_bar(0,-1);
+                    fixation_cross_page.action(this);
+                }
+            }
+            
+            SubTrial presentation
+            {
+                on_event:entry()
+                {
+                    test_page.action(this, current_item, reference_time, testC.cycle);
+                }
+            }
+
+             Part 
+            {
+                on_event:entry()
+                {
+                    blank_page.action_auto(this, 500ms);
+                }
+            }
+
+            TransientPart recalibrate_check
+            {
+                on_event:entry()
+                {
+                    if (test_page.response.recalibrate && USE_EYETRACKING)
+                        recalibration.enter(); 
+                }
+            }
+        }
+    }
 
     Part thankyou
     {

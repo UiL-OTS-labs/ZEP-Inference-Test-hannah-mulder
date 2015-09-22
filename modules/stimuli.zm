@@ -53,23 +53,14 @@ record TestItem
     bool        do_drift_check;       // if set, perform drift check
 }
 
-// Item table used in the practice phase before the test phase.
-TestItem[..] test_prac_items;
-
 // Item table used in the test phase.
 TestItem[..] test_items;
 
 int all_stimuli_items_exist()
 {
-    if(all_items_files_exists(test_prac_items)==ERROR)
-    {
-        println("some PRACTICE items do not exist, error.");
-        return ERROR;
-    }
-
      if(all_items_files_exists(test_items)==ERROR)
     {
-        println("some TEST items do not exist, error.");
+        println("some items do not exist, error.");
         return ERROR;          
     }
     return OK;
@@ -83,10 +74,18 @@ int all_items_files_exists(TestItem[] items)
     {
         TestItem item = items[index];
         
+        string full_path_to_image0 = stimuli_dir() + "images/" + item.image_filename0;
         string full_path_to_image1 = stimuli_dir() + "images/" + item.image_filename1;
         string full_path_to_image2 = stimuli_dir() + "images/" + item.image_filename2;
+        string full_path_to_image3= stimuli_dir() + "images/" + item.image_filename3;
+        string full_path_to_image4 = stimuli_dir() + "images/" + item.image_filename4;
         string full_path_to_sound = stimuli_dir() + "sounds/" + item.sound_filename;
 
+        if(!file_exists(full_path_to_image0))
+        {
+            println("ERROR: could not locate " + full_path_to_image0);
+             return ERROR;
+        }
         if(!file_exists(full_path_to_image1))
         {
             println("ERROR: could not locate " + full_path_to_image1);
@@ -95,6 +94,16 @@ int all_items_files_exists(TestItem[] items)
         if(!file_exists(full_path_to_image2))
         {
             println("ERROR: could not locate " + full_path_to_image2);
+             return ERROR;
+        }
+        if(!file_exists(full_path_to_image3))
+        {
+            println("ERROR: could not locate " + full_path_to_image3);
+             return ERROR;
+        }
+         if(!file_exists(full_path_to_image4))
+        {
+            println("ERROR: could not locate " + full_path_to_image4);
              return ERROR;
         }
         if(!file_exists(full_path_to_sound))
@@ -108,20 +117,13 @@ int all_items_files_exists(TestItem[] items)
     return OK;   
 }
 
-int load_stimuli()
+int load_stimuli(string source)
 {
-     if (load_prac_stimuli() != OK)
+     if (load_stimuli_from(source) != OK)
         {
-            println("problem loading PRACTICE stimuli from file, terminating\n" );
+            println("problem loading stimuli from file, terminating\n" );
             return ERROR;
         }
-
-    if (load_test_stimuli() != OK)
-        {
-            println("problem loading TEST stimuli from file, terminating\n" );
-             return ERROR;
-        }
-
         return OK;        
 }
 
@@ -135,29 +137,14 @@ int shuffle_stimuli()
     return OK;
 }
 
-// Loads item table(s) from CSV file(s) in the stimuli folder.
-int load_prac_stimuli()
-{
-    // Uncomment relevant parts below to load stimuli from CSV file.
-
-    int err;
-
-//    // Load data into test_prac_items table.
-    err = test_prac_items.load(stimuli_dir() + "test_prac_items.csv", 
-        true,           // if true, file contains a header row
-        1);             // number of lines to skip before header and data
-    if (err) return err;
-
-    return OK;
-}
-
-int load_test_stimuli()
+// Loads item table(s) from CSV file(s) in the stimuli folder
+int load_stimuli_from(string source)
 {
     // Uncomment relevant parts below to load stimuli from CSV file.
 
     int err;
     // Load data into test_items table.
-    err = test_items.load(stimuli_dir() + "test_items.csv", 
+    err = test_items.load(stimuli_dir() + source, 
         true,           // if true, file contains a header row
         1);             // number of lines to skip before header and data
     if (err) return err;
@@ -166,11 +153,8 @@ int load_test_stimuli()
 }
 
 // Saves item table(s) as CSV file(s) in the script folder.
-void save_stimuli()
+void save_stimuli(string output)
 {
-    test_prac_items.save(script_dir() + "test_prac_items.csv", 
-        "Test phase practice items");
-
-    test_items.save(script_dir() + "test_items.csv", 
-        "Test phase items");
+    test_items.save(script_dir() + output, 
+        "Test items");
 }

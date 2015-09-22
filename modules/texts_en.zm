@@ -58,3 +58,6 @@ const string PRACTICE_PAUSE_TEXT =
 "experimenter now.\n"
 "\n"
 "<i>Hit Enter when ready to proceed.</i>";
+
+const string AB_PAUSE_TEXT = "AB";
+const string BC_PAUSE_TEXT = "BC";

@@ -1,0 +1,34 @@
+### Test phase items ###;;;;;;;;;;;;
+id;type;target_onset;image_filename0;instruction;image_filename1;image_filename2;image_filename3;image_filename4;image_correct_filename;sound_filename;record_eye_movements;do_drift_check
+1;B;0;yoni_sad_top_right.png;Yoni vindt ____ niet leuk;smiley-schuin-sip-mintgroen.png;smiley-sip-oranje.png;smiley-neutraal-geel.png;smiley-blij-lila.png;smiley-sip-oranje.png;;false;false
+2;B;0;yoni_sad_top_right.png;Yoni verkneukelt zich om de pech van ____ ;smiley-schuin-neutraal-wit.png;smiley-sip-wit.png;smiley-neutraal-wit.png;smiley-blij-wit.png;smiley-sip-wit;;false;false
+3;B;0;yoni_happy_bottom_left.png;Yoni identificeert zich met  ____ ;gezicht3-neutraal.png;gezicht1-afkeer.png;gezicht2-blij.png;gezicht2-verbaasd.png;gezicht2-blij;;false;false
+4;B;0;yoni_sad_front.png;Yoni voelt zich hetzelfde als  ____ ;smileymethaar-blij.png;smileymethaar-verdrietig.png;smileymethaar-verbaasd.png;smileymethaar-blij.png;smileymethaar-verdrietig;;false;false
+5;B;0;yoni_sad_front.png;Yoni benijdt het succes van ____ ;smiley-schuin-neutraal-wit.png;smiley-sip-wit.png;smiley-neutraal-wit.png;smiley-blij-wit.png;smiley-sip-wit;;false;false
+6;B;0;yoni_sad_bottom_left.png;Yoni vindt  ____  niet leuk;gezicht3-neutraal.png;gezicht1-afkeer.png;gezicht5-neutraal.png;gezicht2-verbaasd.png;gezicht5-neutraal;;false;false
+7;B;0;yoni_happy_front.png;Yoni identificeert zich met  ____ ;gezicht4-afkeer.png;gezicht1-afkeer.png;gezicht1-blij.png;gezicht2-verbaasd.png;gezicht1-blij;;false;false
+8;B;0;yoni_happy_bottom_left.png;Yoni vindt ____  leuk;smiley-schuin-sip-grijs.png;smiley-sip-oranje.png;smiley-neutraal-olijfgroen.png;smiley-blij-lichtgroen.png;smiley-neutraal-olijfgroen.png;;false;false
+9;B;0;yoni_happy_front.png;Yoni verkneukelt zich om de pech van  ____ ;gezicht3-neutraal.png;gezicht5-somber.png;gezicht2-blij.png;gezicht3-blij.png;gezicht5-somber;;false;false
+10;B;0;yoni_happy_front.png;Yoni verkneukelt zich om de pech van  ____ ;smileymethaar-verbaasd.png;smileymethaar-verdrietig.png;smileymethaar-verbaasd.png;smileymethaar-blij.png;smileymethaar-verdrietig;;false;false
+11;B;0;yoni_sad_front.png;Yoni identificeert zich met  ____ ;gezicht3-neutraal.png;gezicht2-verbaasd.png;gezicht1-blij.png;gezicht1-afkeer.png;gezicht3-neutraal;;false;false
+12;B;0;yoni_neutral_bottom_right.png;Yoni denkt aan  ____ ;smileymethaar-boos.png;smileymethaar-verdrietig.png;smileymethaar-verbaasd.png;smileymethaar-blij.png;smileymethaar-blij;;false;false
+13;B;0;yoni_happy_front.png;Yoni verkneukelt zich om de pech van  ____ ;smileymethaar-verdrietig.png;smileymethaar-blij.png;smileymethaar-blij.png;smileymethaar-blij.png;smileymethaar-verdrietig;;false;false
+14;B;0;yoni_sad_front.png;Yoni benijdt het succes van  ____ ;gezicht3-neutraal.png;gezicht1-afkeer.png;gezicht1-blij.png;gezicht2-verbaasd.png;gezicht1-blij;;false;false
+15;B;0;yoni_sad_front.png;Yoni voelt zich hetzelfde als ____ ;smiley-schuin-sip-petrol.png;smiley-neutraal-turkoois.png;smiley-neutraal-lichtgroen.png;smiley-blij-rood.png;smiley-schuin-sip-petrol;;false;false
+16;B;0;yoni_neutral_bottom_left.png;Yoni denkt aan ____ ;smiley-schuin-neutraal-geel.png;smiley-blij-zalm.png;smiley-neutraal-lichtblauw.png;smiley-neutraal-donkerturkoois.png;smiley-neutraal-lichtblauw;;false;false
+17;B;0;yoni_happy_top_left.png;Yoni voelt zich hetzelfde als  ____ ;gezicht3-neutraal.png;gezicht1-afkeer.png;gezicht2-blij.png;gezicht2-verbaasd.png;gezicht3-neutraal;;false;false
+18;B;0;yoni_sad_bottom_right.png;Yoni denkt aan ____ ;smiley-schuin-blij-lichtblauw.png;smiley-sip-donkerpaars.png;smiley-neutraal-lichtgeel.png;smiley-blij-lichtblauw.png;smiley-blij-lichtblauw;;false;false
+19;B;0;yoni_happy_top_right.png;Yoni verkneukelt zich om de pech van  ____ ;gezicht3-neutraal.png;gezicht1-afkeer.png;gezicht2-blij.png;gezicht2-verbaasd.png;gezicht3-neutraal;;false;false
+20;B;0;yoni_sad_bottom_left.png;Yoni voelt zich hetzelfde als ____ ;smiley-schuin-sip-donkerblauw.png;smiley-neutraal-groen.png;smiley-neutraal-felroze.png;smiley-blij-geel.png;smiley-sip-donkerblauw;;false;false
+21;B;0;yoni_sad_top_left.png;Yoni voelt zich hetzelfde als ____ ;smiley-sip-wit.png;smiley-down-wit.png;smiley-neutraal-wit.png;smiley-blij-wit.png;smiley-sip-wit;;false;false
+22;B;0;yoni_happy_top_right.png;Yoni voelt zich hetzelfde als  ____ ;gezicht3-neutraal.png;gezicht1-afkeer.png;gezicht2-blij.png;gezicht2-verbaasd.png;gezicht2-blij;;false;false
+23;B;0;yoni_happy_front.png;Yoni identificeert zich met ____  ;smiley-schuin-sip-zalm.png;smiley-sip-geel.png;smiley-neutraal-grijs.png;smiley-blij-felroze.png;smiley-blij-felroze.png;;false;false
+24;B;0;yoni_sad_bottom_right.png;Yoni benijdt het succes van ____ ;smileymethaar-boos.png;smileymethaar-verdrietig.png;smileymethaar-verbaasd.png;smileymethaar-blij.png;smileymethaar-blij.png;;false;false
+25;B;0;yoni_sad_bottom_left.png;Yoni benijdt het succes van ____ ;gezicht3-neutraal.png;gezicht1-afkeer.png;gezicht2-blij.png;gezicht6-blij.png;gezicht3-blij.png;;false;false
+26;B;0;yoni_happy_bottom_right.png;Yoni vindt ____  leuk;smileymethaar-boos.png;smileymethaar-verdrietig.png;smileymethaar-verbaasd.png;smileymethaar-blij.png;smileymethaar-blij.png;;false;false
+27;B;0;yoni_happy_top_left.png;Yoni verkneukelt zich over de pech van ____ ;smileymethaar-boos.png;smileymethaar-verdrietig.png;smileymethaar-verbaasd.png;smileymethaar-blij.png;smileymethaar-boos.png;;false;false
+28;B;0;yoni_sad_bottom_right.png;Yoni benijdt het succes van ____ ;smiley-schuin-sip-wit.png;smiley-blij-wit.png;smiley-neutraal-wit.png;smiley-blij-wit.png;smiley-blij-wit.png;;false;false
+29;B;0;yoni_sad_front.png;Yoni benijdt het succes van ____ ;smileymethaar-boos.png;smileymethaar-verdrietig.png;smileymethaar-blij.png;smileymethaar-verbaasd.png;smileymethaar-blij.png;;false;false
+30;B;0;yoni_neutral_bottom_left.png;Yoni denkt aan ____ ;smiley-schuin-sip-geel.png;smiley-sip-zalm.png;smiley-neutraal-lichtblauw.png;smiley-blij-donkerturkoois.png;smiley-blij-donkerturkoois.png;;false;false
+31;B;0;yoni_neutral_top_right.png;Yoni denkt aan ____ ;gezicht3-neutraal.png;gezicht1-afkeer.png;gezicht5-neutraal.png;gezicht2-verbaasd.png;gezicht1-afkeer.png;;false;false
+32;B;0;yoni_sad_top_right.png;Yoni identificeert zich met ____ ;smiley-schuin-sip-oranjegeel.png;smiley-sip-mintgroen.png;smiley-neutraal-groen.png;smiley-blij-koraal.png;smiley-sip-mintgroen.png;;false;false
