@@ -27,4 +27,4 @@ Images size, location and scaling can be adjuste via the following values in `mo
     DISTANCE_OUTER_PICTURES = 300;
     IMAGE_SCALING = 0.5; //Liefst op 1.0
 
-Texts (instructions and buttons) can be edited by changing the line `import text_nl.zm` to `import text_en.zm` in `infer.zm`. One can edit the content of the text variables in `modules/texts_*.zm`.
+Texts (instructions and buttons) can be edited by changing the line `import text_nl` to `import text_en` at the header in `infer.zm`. One can edit the content of the text variables in `modules/texts_nl.zm` or `texts_en.zm`.
